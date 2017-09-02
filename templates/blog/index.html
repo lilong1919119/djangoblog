@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block main %}
+{% for post in post_list %}
+    <article class="post post-{{post.pk}}">
+    <h2 class="entry_title"><a href="{{ post.get_absolute_url}}">{{post.title}}</a></h2>
+    <div class="entry-meta">
+        <span class="post-catagory"><a href="#">{{post.category.name}}</a></span>
+        <span class="post-date"><a href='#'><time class="entry-date"
+                            datetime="{{post.created_time}}">{{post.created_time}}</time></a></span>
+        <span class="post-author"><a href="#">{{post.author}}</a></span>
+
+        <span class="post-tag"><a href="#">{{ post.tags }}</a></span>
+
+
+        <div class="entry-content clearfix">
+        <p>{{post.excerpt}}</p>
+        <div class="read-more cl-effect-14"><a href="{{post.get_absolute_url}}" class="more-link">继续阅读</a></div>
+        </div>
+        <span class="comment-link"><a href=" {{post.get_absolute_url}}#讨论区 " >{{ post.comment_set.count }}个小可爱评论</a></span>
+        <span class="views-count"><a href="#">700 阅读</a></span>
+        </div>
+        
+
+    </article>
+    {% empty %}
+        <div class='no-post'>暂时没有发布的文章</div>
+        {% endfor %}
+{% endblock main %}
+
