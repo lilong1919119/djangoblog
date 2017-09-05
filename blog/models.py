@@ -41,7 +41,7 @@ class Post(models.Model):   #文章表库
     tags=models.ManyToManyField(Tag,blank=True)  #多对多的关系，一片文章可以多个标签，一个标签也可以对应多篇文章
 
     author=models.ForeignKey(User)  #设置外键对应用户表，User是Django写好的数据表，导入，一对多的关系
-
+    views=models.PositiveIntegerField(default=10) #设置阅读量，默认为10,增加阅读量的字段
     def get_absolute_url(self):
         return reverse('blog:detail',kwargs={'pk':self.id})
     #捕获pk,reverse即根据参数和视图函数反向查找出url，文章设置绝对地址。
@@ -51,6 +51,9 @@ class Post(models.Model):   #文章表库
 
     def __str__(self):
         return self.title
+    def increase_views(self):
+        self.views+=1                 #调用这个方法则views数量加1
+        self.save(update_fields=['views'])  #只更新views字段到数据库
 
 
 
