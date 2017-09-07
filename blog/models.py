@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.six import python_2_unicode_compatible
+import markdown #给文章摘要富文本化
+from django.utils.html import strip_tags #这个函数用来去html文本的html标签
 # coding: utf-8
 # Create your models here.
 """
@@ -46,8 +48,6 @@ class Post(models.Model):   #文章表库
         return reverse('blog:detail',kwargs={'pk':self.id})
     #捕获pk,reverse即根据参数和视图函数反向查找出url，文章设置绝对地址。
 
-    class Meta:  # 定义models.Model的子类的源属性，注意大小写
-        ordering = ['-created_time', 'title']  # 定义Post的源排序根据时间逆序,时间想通过比较标题
 
     def __str__(self):
         return self.title
@@ -55,5 +55,13 @@ class Post(models.Model):   #文章表库
         self.views+=1                 #调用这个方法则views数量加1
         self.save(update_fields=['views'])  #只更新views字段到数据库
 
+    def save(self,*args,**kwargs): #保存了save应有的样子
+        if not self.excerpt:
+            md=markdown.Markdown(extensions=['markdown.extensions.extra',
+                                             'markdown.extensions.codehilite',])
+            #现将markdown实例化，用于渲染摘要
+            self.excerpt=strip_tags(md.convert(self.body))[:54]#将html文本的html标签去除，然后通过markdown渲染，取前52个字
+        super(Post,self).save(*args,**kwargs) #调用父类的save方法
 
-
+    class Meta:  # 定义models.Model的子类的源属性，注意大小写
+        ordering = ['-created_time', 'title']  # 定义Post的源排序根据时间逆序,时间想通过比较标题

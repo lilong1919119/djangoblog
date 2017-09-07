@@ -58,7 +58,7 @@ ROOT_URLCONF = 'lilong.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],    #加入模板路径
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

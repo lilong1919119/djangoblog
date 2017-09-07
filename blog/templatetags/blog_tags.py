@@ -2,7 +2,7 @@ from ..models import Post,Category,Tag
 from django import template
 from django.db.models.aggregates import Count
 
-register=template.Library()  #现在模板类中注册
+register=template.Library()  #现在模板类中注册,非常重要
 
 '''最新文章标签'''
 @register.simple_tag   #将下面的标签函数装饰为simple_tag，这样就可以在模板语法中调用{% get_recent_posts %}这个函数

@@ -17,7 +17,7 @@ def index(request):
 def detail(request,pk):  #从<pk>中拿到的值
     post=get_object_or_404(Post,id=pk )
     post.increase_views()  #当浏览时，views属性加1
-    post.body=markdown.markdown(post.body,   extensions=[
+    post.body=markdown.markdown(post.body, extensions=[
                                       'markdown.extensions.extra',  #拓展，如表格等
                                       'markdown.extensions.codehilite',  #拓展代码高亮
                                       'markdown.extensions.toc',    #
