@@ -8,4 +8,3 @@ urlpatterns=[url(r'^$',views.index,name='index'),#第一个参数是网址，第
              url(r'^category/(?P<pk>[0-9]+)$',views.category,name='category'),
              url(r'^tag/(?P<pk>[0-9]+)$',views.tag,name='tag'),
              ]
-  #

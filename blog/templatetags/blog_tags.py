@@ -29,9 +29,12 @@ def get_category():
     #__gt__为对象 的大于属性,相当于给个Category新增了一栏counts属性，'post'是小写,他与跳转后index.html中的'post'个数有关
 
 '''标签云'''
+# @register.simple_tag
+# def get_tag():
+#     return Tag.objects.all()
+
 @register.simple_tag
 def get_tag():
-    return Tag.objects.all()
-
+    return Tag.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0)
 
 

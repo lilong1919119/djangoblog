@@ -39,8 +39,8 @@ def category(request,pk):
     return render(request,'blog/index.html',context={'post_list':post_list})
 
 def tag(request,pk):
-    tg=get_object_or_404(Tag,pk=pk)
-    post_list=Post.objects.filter(tags=tg).order_by('-created_time')
-    return render(request,'blog/index.html',context={'post-list':post_list})
+    ca=get_object_or_404(Tag,pk=pk)
+    post_list=Post.objects.all().filter(tags=ca).order_by('-created_time')
+    return render(request,'blog/index.html',context={'post_list':post_list})#细心，每一个大小写，每一个符号
 
 

@@ -23,6 +23,7 @@ class Category(models.Model):    #分类表的ORM继承子MODEL
         return self.name
 @python_2_unicode_compatible
 class Tag(models.Model):   #标签表
+
     name = models.CharField(max_length=100)
     def __str__(self):
         return self.name
