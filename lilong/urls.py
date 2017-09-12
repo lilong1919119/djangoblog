@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'',include('blog.urls'))  , #include指在包含的环境下，多了匹配地址blog
     url(r'',include('comments.urls')),  #将评论的url函数绑定
+    url(r'^search/',include('haystack.urls')),
 ]

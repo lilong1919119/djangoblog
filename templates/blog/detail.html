@@ -62,3 +62,7 @@
                     </div>
                 </section>
                 {% endblock main %}
+ {% block toc %}
+                    <h3 class="widget-title">文章目录</h3>
+                    {{ post.toc|safe }}
+                     {% endblock toc %}

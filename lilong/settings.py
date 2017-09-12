@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%q456fdr%n68ig2#g@zty@@sbn@ok+n9@mi&69@)yn5o%pr6iu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG =False
 #DEBUG = False  在生产环境下禁止调试
 
 #ALLOWED_HOSTS = ['192.168.0.%s'%a  for a in range(100,120)]+['localhost']
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',#注册应用
     'comments',#评论板块
+    'haystack',#检索模块
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -122,4 +122,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'  #静态文件的寻找路径，即本地文件
-STATIC_ROOT=os.path.join(BASE_DIR,'static') #为生产环境加的
+STATIC_ROOT=os.path.join(BASE_DIR,'static') #为生产环境加的,都收集在一个文件夹下
+
+HAYSTACK_CONNECTIONS={
+    'default':{
+        'ENGINE':'blog.whoosh_cn_backend.WhooshEngine',
+        'PATH' : os.path.join(BASE_DIR,'whoosh_index'),
+    }
+}
+#指定所用的搜索引擎和文件存放位置，（在建立索引是自动创建）
+HAYSTACK_SEARCH_RESULTS_PER_PAGE=10   #指定对搜索结果分页，这里设置每10项为一页
+HAYSTACK_SIGNAL_PROCESSOR='haystack.signals.RealtimeSignalProcessor' #指定什么时候更新索引，这里用的是实时更新，每当有文章更新时就更新索引

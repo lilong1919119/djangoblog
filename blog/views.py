@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404
+from django.utils.text import slugify
+from markdown.extensions.toc import TocExtension
 import markdown
 from django.http import HttpResponse
 from .models import Post,Category,Tag
@@ -17,12 +19,13 @@ def index(request):
 def detail(request,pk):  #从<pk>中拿到的值
     post=get_object_or_404(Post,id=pk )
     post.increase_views()  #当浏览时，views属性加1
-    post.body=markdown.markdown(post.body, extensions=[
+    md=markdown.Markdown(extensions=[
                                       'markdown.extensions.extra',  #拓展，如表格等
                                       'markdown.extensions.codehilite',  #拓展代码高亮
-                                      'markdown.extensions.toc',    #
-                                  ])  #注入markdown,使文章实体更充实
-
+                                      TocExtension(slugify=slugify),    #目录生成并美化锚点
+                                  ])
+    post.body=md.convert(post.body)
+    post.toc=md.toc
     form = CommentForm()  #将评论实例
     comment_list = post.comment_set.all().order_by('-created_time')  # 获取这篇文章下的所有评论,这两句是作用给评论
     context = {'post':post,'form':form,'comment_list':comment_list,}
